@@ -17,8 +17,11 @@ func main() {
 	var err error
 	var diskSize int64
 
+	rand.Seed(time.Now().UnixNano())
+
 	blockDev := flag.String("blockDev", "", "Block device (REQUIRED)")
 	readFreq := flag.String("readFreq", "5m", "Frequency to check for record update (default 5m)")
+	logReads := flag.Bool("logReads", false, "Log reads from disk (default false)")
 
 	flag.Parse()
 
@@ -59,7 +62,7 @@ func main() {
 
 		readByte := rand.Int63n(diskSize - 1)
 
-		fmt.Printf("Reading byte %d from device %s\n", readByte, *blockDev)
+		if *logReads { fmt.Printf("Reading byte %d from device %s\n", readByte, *blockDev) }
 
 		_, err = syscall.Seek(fd, readByte, 0)
 
