@@ -1,0 +1,9 @@
+[Unit]
+Description=HD Awake
+
+[Service]
+Type=simple
+Environment=BLOCK_DEV=/dev/sda
+Environment=READ_FREQ=5m
+Environment=LOG_READS=false
+ExecStart=/usr/local/bin/hd-awake -blockDev=${BLOCK_DEV} -readFreq ${READ_FREQ} -logReads=${LOG_READS}
